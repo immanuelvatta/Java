@@ -63,12 +63,11 @@ class SinglyLinkedList {
      */
     insertAtBack(data) {
         // create the instance of the node class to hold our data
-
         const newBack = new ListNode(data)
         // either the list is empty or it's not
         // if empty 
-        // set the head to the new node
         if (this.isEmpty()) {
+            // set the head to the new node
             this.head = newBack;
             return this;
         }
@@ -76,11 +75,11 @@ class SinglyLinkedList {
         // set a var as the runner
         let runner = this.head;
         // loop over all the nodes until we find the node with a next equal to null
-        while(runner.next!== null) {
+        while (runner.next !== null) {
             runner = runner.next;
-            // set the last node's next value to the new node.
-            runner.next = newBack;
         }
+        // set the last node's next value to the new node.
+        runner.next = newBack;
 
         return this;
     }
@@ -108,16 +107,15 @@ class SinglyLinkedList {
  * @param {any} data The data for the new node.
  * @returns {SinglyLinkedList} This list.
  */
-    insertAtFront(data) { 
-        // create a new node
-        // set the next of the new node to the current head
-        // set the sll head to the new node
-        const newFront = new ListNode(data)
-        if(this.head !== null){
-            newFront.next = this.head
-        }
-        this.head = newFront
-        return this
+    insertAtFront(data) {
+        //create new node:
+        const newHead = new ListNode(data);
+        // set the new head's pointer to the current head
+        newHead.next = this.head;
+        // set the sll's head pointer to the new node being added
+        this.head = newHead;
+        // return the list
+        return this;
     }
 
     /**
@@ -126,17 +124,18 @@ class SinglyLinkedList {
      * - Space: (?).
      * @returns {any} The data from the removed node.
      */
-    removeHead() { 
-        //if head is empty 
-        //return false
-        //else
-        //remove head
-        if(this.head === null){
-            return null;
-        }else{
-            this.head = this.head.next
-            return this
+    removeHead() {
+        // if the list is empty, we're done!!
+        if (this.isEmpty()) {
+            return null
         }
+        //
+        // make a temp variable to hold the current head
+        const oldHead = this.head;
+        // set the sll's head pointer to the old head's next
+        this.head = oldHead.next;
+        // return the data from the old head
+        return oldHead.data;
 
     }
 
@@ -148,16 +147,102 @@ class SinglyLinkedList {
      * @returns {number|NaN} The average of the node's data.
      */
     average() {
-        let sum = 0;
-        let count = 0;
         let runner = this.head;
+        let sum = 0;
+        let cnt = 0;
+
+        // iterate over the list
         while (runner) {
+            // count all the nodes in the list
+            cnt++;
+            // keep a running total of the sum of all the data values
             sum += runner.data;
-            count++;
+            // advance the runner to the next node
             runner = runner.next;
         }
-        return sum / count;
+
+        // return the average
+        return sum / cnt;
     }
+
+
+    //! THURSDAY
+
+    /**
+ * Removes the last node of this list.
+ * - Time: O(?).
+ * - Space: O(?).
+ * @returns {any} The data from the node that was removed.
+ */
+    removeBack() { 
+        // 3 possibilities:
+        // the list could be empty
+        if (this.isEmpty()) {
+            return null;
+        }
+        // there could be one node
+        if (this.head.next === null){
+            let removed = this.head.next 
+            this.head = null;
+            return removed
+        }
+        // multiple nodes
+        // set a var as the runner
+        let runner = this.head;
+        // loop over all the nodes until we find the node with a next equal to null
+        while (runner.next.next) {
+            runner = runner.next;
+        }
+        let removed = runner.next.data 
+        runner.next = null;
+        return removed
+    }
+
+    /**
+     * Determines whether or not the given search value exists in this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {any} val The data to search for in the nodes of this list.
+     * @returns {boolean}
+     */
+    contains(val) {
+        let runner = this.head;
+        while(runner){
+            //compare the data 
+            if(runner.data === val){
+                //return true if its equal
+                return true
+            }
+            //go to the next node
+            runner = runner.next
+        }
+        //if value not equal return false
+        return false
+    }
+
+    /**
+     * Determines whether or not the given search value exists in this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {any} val The data to search for in the nodes of this list.
+     * @param {?ListNode} current The current node during the traversal of this list
+     *    or null when the end of the list has been reached.
+     * @returns {boolean}
+     */
+    containsRecursive(val, current = this.head) { }
+
+    // EXTRA
+    /**
+     * Recursively finds the maximum integer data of the nodes in this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {ListNode} runner The start or current node during traversal, or null
+     *    when the end of the list is reached.
+     * @param {ListNode} maxNode Keeps track of the node that contains the current
+     *    max integer as it's data.
+     * @returns {?number} The max int or null if none.
+     */
+    recursiveMax(runner = this.head, maxNode = this.head) { }
 
     /**
      * Calls insertAtBack on each item of the given array.
@@ -221,6 +306,11 @@ const emptyList = new SinglyLinkedList();
 // Print your list like so:
 // console.log(firstThreeList.toArr());
 
-const mysll = new SinglyLinkedList()
-const node1 = new ListNode(11)
-
+const mySll = new SinglyLinkedList();
+mySll.insertAtBack(4)
+mySll.insertAtBack(5)
+mySll.insertAtBack(2)
+mySll.insertAtBack(3)
+mySll.insertAtBack(45)
+mySll.insertAtBack(22)
+mySll.insertAtBack(12)
